@@ -84,56 +84,9 @@ public class ListAppFragment extends VFragment<ListAppContract.ListAppPresenter>
     }
 
     private void chooseInstallWay(Runnable runnable, String path) {
-        AlertDialog alertDialog = new AlertDialog.Builder(getContext())
-                .setTitle(R.string.install_choose_way)
-                .setMessage(R.string.install_choose_content)
-                .setPositiveButton(R.string.install_choose_taichi, (dialog, which) -> {
-                    PackageManager packageManager = getActivity().getPackageManager();
-                    try {
-                        packageManager.getPackageInfo("me.weishu.exp", 0);
-                        Intent intent = new Intent();
-                        intent.setComponent(new ComponentName("me.weishu.exp", "me.weishu.exp.ui.MainActivity"));
-                        intent.putExtra("path", path);
-                        startActivity(intent);
-                    } catch (PackageManager.NameNotFoundException e) {
-                        AlertDialog showInstallDialog = new AlertDialog.Builder(getContext())
-                                .setTitle(android.R.string.dialog_alert_title)
-                                .setMessage(R.string.install_taichi_not_exist)
-                                .setPositiveButton(R.string.install_go_to_install_exp, (dialog1, which1) -> {
-                                    Intent t = new Intent(Intent.ACTION_VIEW);
-                                    t.setData(Uri.parse("https://www.coolapk.com/apk/me.weishu.exp"));
-                                    startActivity(t);
-                                })
-                                .create();
-                        showInstallDialog.show();
-                    } catch (Throwable e) {
-                        AlertDialog showInstallDialog = new AlertDialog.Builder(getContext())
-                                .setTitle(android.R.string.dialog_alert_title)
-                                .setMessage(R.string.install_taichi_while_old_version)
-                                .setPositiveButton(R.string.install_go_latest_exp, (dialog1, which1) -> {
-                                    Intent t = new Intent(Intent.ACTION_VIEW);
-                                    t.setData(Uri.parse("https://taichi.cool"));
-                                    startActivity(t);
-                                })
-                                .create();
-                        showInstallDialog.show();
-                    }
-                    finishActivity();
-                }).setNegativeButton("VirtualXposed", (dialog, which) -> {
-                    if (runnable != null) {
-                        runnable.run();
-                    }
-                    finishActivity();
-                }).setNeutralButton(R.string.what_is_exp, ((dialog, which) -> {
-                    Intent t = new Intent(Intent.ACTION_VIEW);
-                    t.setData(Uri.parse("https://taichi.cool"));
-                    startActivity(t);
-                }))
-                .create();
-        try {
-            alertDialog.show();
-        } catch (Throwable ignored) {
-        }
+        if (runnable != null) {
+            runnable.run();
+         }
     }
 
     @Override
